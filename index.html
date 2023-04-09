@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Definições gerais */
+        * {
+        box-sizing: border-box;
+        }
+
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        }
+
+        /* Área do carrinho */
+        .carrinho {
+        margin-top: -15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1em;
+        border: 1px solid #ccc;
+        border-radius: 0.5em;
+        width: 150px;
+        height: 50vh;
+        }
+
+        .carrinho h2 {
+        font-size: 1.5em;
+        margin: 0 0 1em;
+        }
+
+        .carrinho div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0.5em 0;
+        }
+
+        .carrinho .finalizar {
+        margin-top: 1em;
+        padding: 0.5em;
+        border: none;
+        border-radius: 0.5em;
+        background-color: #008CBA;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+        }
+
+        .carrinho .finalizar:hover {
+        background-color: #005F6B;
+        }
+
+        /* Cards dos produtos */
+        .cards {
+        padding: 1em;
+        margin: 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+        border-radius: 0.5em;
+        width: 100px;
+        height: 100px;
+        }
+
+        .cards img {
+        width: 30px;
+        height: 30px;
+        margin-bottom: 0;
+        }
+
+        .cards label {
+        font-size: 0.4em;
+        margin-bottom: 0;
+        }
+
+        .cards .preco {
+        font-weight: bold;
+        }
+
+        .cards button {
+        font-size: 9px;
+        margin-top: 1em;
+        padding: 0.5em;
+        border: none;
+        border-radius: 0.5em;
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+        }
+
+        .cards button:hover {
+        background-color: #2E8B57;
+        }
+
+        /* Tela geral */
+        .tela {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="tela">
+        <div class="cards"><label>Ipad R$ <span class="preco">100</span></label><br><img src="/icons/apple.png"><button>comprar</button></div>
+        <div class="cards"><label>Celular R$ <span class="preco">200</span></label><br><img src="/icons/motorola.png"><button>comprar</button></div>
+        <div class="cards"><label>Placa de video R$ <span class="preco">300</span></label><br><img src="/icons/nvidea.png"><button>comprar</button></div>
+        <div class="carrinho">
+            <div>QTD: <span class="quantidade"></span></div>
+            <div>Valor Total: <span class="valor"></span></div>
+            <input type="submit" class="finalizar" value="Finalizar compra">
+        </div>
+    </div>
+    <script>
+        // variaveis preços dos produtos
+
+        let preco = document.querySelector(".preco")
+        let motorolaPreco = document.querySelector(".motorolaPreco")
+        let placaPreco = document.querySelector(".placaPreco")
+        let sonyPreco = document.querySelector(".sonyPreco")
+        let btns = document.querySelectorAll("button")
+
+        // variaveis botoes
+        
+        btns.forEach((btn, i)=>{
+            btn.classList.add(`botao${i}`)
+        })
+
+        let btn0 = document.querySelector(".botao0")
+        let btn1 = document.querySelector(".botao1")
+        let btn2 = document.querySelector(".botao2")
+
+        // variaveis carrinho de compras
+
+        let quantidade = document.querySelector(".quantidade")
+        let valor = document.querySelector(".valor")
+
+        // logica
+
+        // implementação da logica do carrinho 
+
+        //quantidade de itens selecionados
+        
+        let contadora = 0;
+        
+        quantidade.innerText = contadora
+
+        function quant(){
+            contadora++
+            quantidade.innerText = contadora
+        }
+
+        btns.forEach((btn) => {
+            btn.addEventListener("click", quant)
+        })
+
+        // valores somados 
+
+        let arrValores = []
+
+        function valoresSomados(){
+            btns.forEach((btn)=>{
+                btn.addEventListener("click", (event)=>{
+                    let container = event.target.parentNode
+                    let valor = +container.querySelector(".preco").innerText
+
+                    arrValores.push(valor)
+                    atualizarValores()
+                })
+            })
+        }
+
+        function atualizarValores(){
+            let valorTotal = arrValores.reduce((total, valor) => total + valor, 0)
+            valor.innerText = valorTotal
+        }
+
+        valoresSomados()
+
+        // finalizar compra
+
+        function compraFinalizada(){
+            alert("Sua compra foi efetuada com sucesso!")
+            return quantidade.innerText = 0
+            valor.innerText = ""
+        }
+
+        let btnFinalizar = document.querySelector(".finalizar")
+        btnFinalizar.addEventListener("click", compraFinalizada)
+
+    </script>
+</body>
+</html>
